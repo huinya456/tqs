@@ -9,7 +9,7 @@ mkdir -p ./tqs
 cd ./tqs
 curl -LZ -o ./tqs.zip "https://github.com/termux-pacman/termux-packages/\
 releases/latest/download/bootstrap-aarch64.zip"
-unzip tqs.zip && rm -f ./tqs.zip
+unzip ./tqs.zip && rm -f ./tqs.zip
 
 cat ./SYMLINKS.txt \
   | awk -F '←' '{system("ln -sv '"'"'"$1"'"'"' '"'"'"$2"'"'"'")}'
