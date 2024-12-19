@@ -8,4 +8,4 @@ cat SYMLINKS.txt | awk -F "←" '{system("ln -s '"'"'"$1"'"'"' '"'"'"$2"'"'"'")}
 rm -f tqs.zip SYMLINKS.txt
 cd ..
 rm -rf "$PREFIX"
-mv ./nusr "$PREFIX"
+mv ./tqs "$PREFIX"
