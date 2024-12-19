@@ -4,9 +4,11 @@
 set -e
 
 cd "${PREFIX%/*}"
+rm -rf ./tqs
 mkdir -p ./tqs
 cd ./tqs
-curl -LZ -o tqs.zip 'https://github.com/termux-pacman/termux-packages/releases/latest/download/bootstrap-aarch64.zip'
+curl -LZ -o ./tqs.zip "https://github.com/termux-pacman/termux-packages/\
+releases/latest/download/bootstrap-aarch64.zip"
 unzip tqs.zip && rm -f ./tqs.zip
 
 cat ./SYMLINKS.txt \
