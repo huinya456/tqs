@@ -8,4 +8,5 @@ cat SYMLINKS.txt | awk -F "←" '{system("ln -s '"'"'"$1"'"'"' '"'"'"$2"'"'"'")}
 rm -f SYMLINKS.txt
 cd ..
 rm -rf "$PREFIX"
+mkdir -p "$PREFIX"
 mv ./tqs/. "$PREFIX"
