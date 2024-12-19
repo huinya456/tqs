@@ -9,10 +9,8 @@ cd ./tqs
 curl -LZ -o tqs.zip 'https://github.com/termux-pacman/termux-packages/releases/latest/download/bootstrap-aarch64.zip'
 unzip tqs.zip && rm -f ./tqs.zip
 
-cat ./SYMLINKS.txt | while read -r sym; do
-  ln -sv "$(echo "${sym//←/' '}" | awk '{print $2,$1}')" &
-done
-wait
+cat ./SYMLINKS.txt \
+  | awk -F '←' '{system("ln -sv '"'"'"$1"'"'"' '"'"'"$2"'"'"'")}'
 rm -f ./SYMLINKS.txt
 cd ..
 rm -rf "${PREFIX}"
