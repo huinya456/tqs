@@ -8,11 +8,12 @@ mkdir -p ./tqs
 cd ./tqs
 curl -ZLo tqs.zip 'https://github.com/termux-pacman/termux-packages/releases/latest/download/bootstrap-aarch64.zip'
 unzip tqs.zip && rm -f ./tqs.zip
-syms="$(cat ./SYMLINKS.txt)"
-rm -f ./SYMLINKS.txt
-for sym in ${syms/←/ /}; do
-  ln -sv "${sym}" &
+
+cat ./SYMLINKS.txt | while read -r sym; do
+  ln -sv "${sym//←/ /}" &
 done
+wait
+rm -f ./SYMLINKS.txt
 cd ..
 rm -rf "${PREFIX}"
 mv ./tqs "${PREFIX}"
