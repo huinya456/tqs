@@ -22,7 +22,7 @@ jobs:
 
       - name: Archive cfg/
         run: |
-          chmod -R 755 ./cfg/usr/local/bin
+          chmod -R 755 ./cfg/usr/bin
           bsdtar -b1 -C ./cfg -cv . > ./cfg.tar
           rm -rf ./cfg
 
