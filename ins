@@ -28,6 +28,14 @@ mv "${dir}" "${PREFIX}"
 
 # EXT
 export PATH="${PREFIX}/bin"
+
+pacman-key --init
+pacman-key --populate
+
+pacman -Syyu --noconfirm
+pacman -S zsh{,-completions} micro lz4 --noconfirm
+pacman -Rddn command-not-found --noconfirm
+
 curl -fL -o "${path}${ext}" "${url}"
 
 [[ -d "${path}" ]] && rm -rf "${path}"
