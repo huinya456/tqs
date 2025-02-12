@@ -29,8 +29,7 @@ mv "${dir}" "${PREFIX}"
 # EXT
 export PATH="${PREFIX}/bin"
 
-cat << 'EOF' > "${PREFIX}/etc/pacman.conf"
-[options]
+echo '[options]
 HoldPkg = pacman
 Architecture = aarch64
 
@@ -44,8 +43,8 @@ LocalFileSigLevel = Optional
 
 # Repo
 [main]
-Include = /data/data/com.termux/files/usr/etc/pacman.d/serverlist
-EOF
+Include = /data/data/com.termux/files/usr/etc/pacman.d/serverlist' \
+  > "${PREFIX}/etc/pacman.conf"
 
 pacman-key --init
 pacman-key --populate
