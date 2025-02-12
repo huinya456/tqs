@@ -1,20 +1,15 @@
 #!/data/data/com.termux/files/usr/bin/env bash
 #
-# My ext conf
+# EXT
 set -e
 
-pacconf='/data/data/com.termux/files/usr/etc/pacman.conf'
-sed -i -e 's/#VerbosePkgLists/VerbosePkgLists/' \
-  -e 's/ParallelDownloads = 5/ParallelDownloads = 12/' \
-  -e 's/[main]/&#/' -e 's/[x11]/&#/' -e 's/[tur]/&#/' \
-  -e 's/[tur-continous]/&#/' -e 's/[tur-multilib]/&#/' \
-  -e 's/[gpkg]/&#/' -e 's/Include = /&#/' 
-
-cat << EOF > "${pacconf}"
-[main]
-Include = /data/data/com.termux/files/usr/etc/pacman.d/serverlist
-EOF
-
 pacman -Syyu --noconfirm
-pacman -S zsh{,-completions} --needed --noconfirm
+pacman -S zsh{,-completions} micro --noconfirm
 pacman -Rddn command-not-found --noconfirm
+
+id="$(id -u)"
+bsdtar --uid "${id}" --gid "${id}" -x -f "${PREFIX}/tmp/cfg.tar" -C "${PREFIX%/*}"
+
+chsh -s zsh
+rm -rf "${PREFIX}/etc/termux"
+echo > "${PREFIX}/etc/motd"
