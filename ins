@@ -29,6 +29,24 @@ mv "${dir}" "${PREFIX}"
 # EXT
 export PATH="${PREFIX}/bin"
 
+cat << 'EOF' > "${PREFIX}/etc/pacman.conf"
+[options]
+HoldPkg = pacman
+Architecture = aarch64
+
+Color
+CheckSpace
+VerbosePkgLists
+ParallelDownloads = 12
+
+SigLevel = DatabaseRequired
+LocalFileSigLevel = Optional
+
+# Repo
+[main]
+Include = /data/data/com.termux/files/usr/etc/pacman.d/serverlist
+EOF
+
 pacman-key --init
 pacman-key --populate
 
