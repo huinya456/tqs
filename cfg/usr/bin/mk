@@ -1,0 +1,6 @@
+#!/data/data/com.termux/files/usr/bin/env bash
+#
+# Run Micro with custom config
+set -e
+
+micro -config-dir "${PREFIX}/etc/micro" "${@}"
