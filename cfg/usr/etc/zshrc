@@ -7,8 +7,7 @@ zstyle ':completion:*' menu select
 setopt rm_star_silent
 
 n=$'\n'
-PROMPT="%B%F{#f2074d}%#%? %F{#48d8db}%d%F{nocolor}${n}%b  "
-RPROMPT="%B%F{#33ccbb}%n@%M%F{nocolor}%b"
+PROMPT="%B%F{#f2074d}%#%? %F{#33ccbb}%d%F{nocolor}${n}%b  "
 
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
