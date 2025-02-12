@@ -5,7 +5,7 @@
 set -e
 dir="${PREFIX%/*}/tqs"
 
-[[ -d "${dir}" ]] rm -rf "${dir}"
+[[ -d "${dir}" ]] && rm -rf "${dir}"
 mkdir -p "${dir}"
 
 curl -fLZ "https://github.com/termux-pacman/termux-packages/\
