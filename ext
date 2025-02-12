@@ -4,8 +4,12 @@
 set -e
 
 id="$(id -u)"
-bsdtar --uid "${id}" --gid "${id}" -x -f "${PREFIX}/tmp/tqs/cfg.tar" -C "${PREFIX%/*}"
+bsdtar --uid "${id}" --gid "${id}" \
+  -x -f "${PREFIX}/tmp/tqs/cfg.tar" -C "${PREFIX%/*}"
 
 chsh -s zsh
 rm -rf "${PREFIX}/etc/termux"
 echo > "${PREFIX}/etc/motd"
+
+echo '- That is all, close old sessions
+then start new one'
