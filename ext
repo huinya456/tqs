@@ -4,7 +4,7 @@
 set -e
 
 id="$(id -u)"
-bsdtar --uid "${id}" --gid "${id}" -x -f "${PREFIX}/tmp/cfg.tar" -C "${PREFIX%/*}"
+bsdtar --uid "${id}" --gid "${id}" -x -f "${PREFIX}/tmp/tqs/cfg.tar" -C "${PREFIX%/*}"
 
 chsh -s zsh
 rm -rf "${PREFIX}/etc/termux"
