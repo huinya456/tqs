@@ -8,8 +8,7 @@ dir="${PREFIX%/*}/tqs"
 [[ -d "${dir}" ]] rm -rf "${dir}"
 mkdir -p "${dir}"
 
-curl -fLZ \
-  "https://github.com/termux-pacman/termux-packages/\
+curl -fLZ "https://github.com/termux-pacman/termux-packages/\
 releases/latest/download/bootstrap-aarch64.zip" \
   | unzip -d "${dir}"
 
