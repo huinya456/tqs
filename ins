@@ -50,7 +50,7 @@ pacman-key --init
 pacman-key --populate
 
 pacman -Syyu --noconfirm
-pacman -S zsh{,-completions} micro lz4 \
+pacman -S zsh{,-completions} micro lz4 openssh openssl-tools \
   bsdtar git python man tsu catimg --noconfirm
 pacman -Rddn command-not-found --noconfirm
 
