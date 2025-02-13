@@ -1,10 +1,12 @@
 #!/data/data/com.termux/files/usr/bin/env bash
 #
 # Openssh helper
+
 set -e
+atp='/storage/emulated/0/atp'
 
 case "${1}" in
   g) ssh-keygen -t ed25519 -f "${HOME}/.ssh/android";;
-  c) cp "${HOME}/.ssh/android.pub" /storage/emulated/0/atp;;
-  u) cat /storage/emulated/0/atp/linux.pub > "${HOME}/.ssh/authorized_keys"
+  c) cp "${HOME}/.ssh/android.pub" "${atp}";;
+  u) cat "${atp}/linux.pub" > "${HOME}/.ssh/authorized_keys";;
 esac
