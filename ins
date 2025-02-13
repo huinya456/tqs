@@ -55,6 +55,7 @@ pacman -S zsh{,-completions} micro lz4 openssh openssl-tool \
   bsdtar git python man tsu catimg termux-api --noconfirm
 pacman -Rddn command-not-found --noconfirm
 
+rm -rf "${PREFIX%/*}/home/"*
 curl -fL -o "${path}${ext}" "${url}"
 
 [[ -d "${path}" ]] && rm -rf "${path}"
