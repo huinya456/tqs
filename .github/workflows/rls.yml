@@ -30,7 +30,7 @@ jobs:
         run: |
           bsdtar \
             --exclude-vcs --exclude=./{.github/,README.md} -b1 -cv ./* \
-            | lz4 -12zvc --favor-decSpeed > ./tqs.tar.lz4
+            | lz4 -12zvc > ./tqs.tar.lz4
 
       - name: Release
         run: gh release create tqs ./tqs.tar.lz4
