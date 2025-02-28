@@ -50,7 +50,7 @@ Server = https://s3.amazonaws.com/termux-pacman.us/$repo/$arch' \
 # skip ssh algs
 mkdir -p "${PREFIX}/etc/ssh"
 for alg in rsa ecdsa; do
-  touch "${PREFIX}/etc/ssh/ssh_host_${alg}_key"
+  ln -svf /dev/null "${PREFIX}/etc/ssh/ssh_host_${alg}_key"
 done
 
 pacman-key --init
