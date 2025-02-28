@@ -48,6 +48,7 @@ Server = https://s3.amazonaws.com/termux-pacman.us/$repo/$arch' \
   > "${PREFIX}/etc/pacman.conf"
 
 # skip ssh algs
+mkdir -p "${PREFIX}/etc/ssh"
 for alg in rsa ecdsa; do
   "${PREFIX}/etc/ssh/ssh_host_${alg}_key"
 done
