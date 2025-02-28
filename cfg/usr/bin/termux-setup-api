@@ -3,7 +3,7 @@
 # Setup termux-api
 
 set -e
-apk="${PREFIX}/tmp/api.apk"
+apk="${TMPDIR}/api.apk"
 conf="${HOME}/.termux/termux.properties"
 
 curl -fL -o "${apk}" \
