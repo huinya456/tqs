@@ -9,6 +9,14 @@ readonly ext='.tar.lz4'
 url="https://github.com/nedorazrab0/tqs/releases/download/tqs/\
 ${path##*/}${ext}"
 
+# Check failsafe
+if [[ -n "${TERMUX_MAIN_PACKAGE_FORMAT}" ]]; then
+  echo '! Not failsafe'
+  echo '- Left edge swipe ==> "new session" (long-tap)'
+  exit 1
+fi
+
+# Main
 [[ -d "${dir}" ]] && rm -rf "${dir}"
 mkdir -p "${dir}"
 
