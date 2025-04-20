@@ -6,6 +6,7 @@ set -e
 apk="${TMPDIR}/api.apk"
 conf="${HOME}/.termux/termux.properties"
 
+pacman -Sy termux-api --noconfirm
 curl -fL -o "${apk}" \
   'https://f-droid.org/repo/com.termux.api_51.apk'
 
@@ -14,5 +15,3 @@ termux-open "${apk}"
 echo '- Press [Enter] to continue'
 read -r ans && unset ans
 echo 'allow-external-apps = false' > "${conf}"
-
-pacman -Sy termux-api --noconfirm
