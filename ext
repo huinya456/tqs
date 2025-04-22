@@ -13,13 +13,13 @@ done
 
 # Pkgs
 pacman -S zsh{,-completions} micro openssh \
-   git python man file --noconfirm
+  git python man file --noconfirm
 pacman -Rddn command-not-found --noconfirm  # Poshlo nahui
 
 # Extract files
 id="$(id -u)"
 bsdtar --uid "${id}" --gid "${id}" -x \
-   -f "${tmp}/cfg.tar" -C "${PREFIX}/.."
+  -f "${tmp}/cfg.tar" -C "${PREFIX}/.."
 
 chsh -s zsh
 rm -rf "${PREFIX}/etc/termux"
