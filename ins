@@ -66,9 +66,9 @@ pacman-key --populate
 pacman -Syyu lz4 bsdtar --noconfirm
 
 rm -rf "${HOME}/"*
-[ -d "${path}" ] && rm -rf "${path}"
 
-mkdir -p "${path}"
+[ -d "${tmp}" ] && rm -rf "${tmp}"
+mkdir -p "${tmp}"
 curl -fL "${url}" | lz4 -dc | bsdtar -x -C "${tmp}"
 
 exec bash "${path}/ext"
