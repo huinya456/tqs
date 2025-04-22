@@ -3,14 +3,28 @@
 # EXT
 set -e
 
+# Skip ssh algs
+mkdir -p "${PREFIX}/etc/ssh"
+for alg in rsa ecdsa; do
+  ln -svf /dev/null "${PREFIX}/etc/ssh/ssh_host_${alg}_key"
+done
+
+# Pkgs
+pacman -S zsh{,-completions} micro openssh \
+   git python man file --noconfirm
+pacman -Rddn command-not-found --noconfirm  # Poshlo nahui
+
+# Extract files
 id="$(id -u)"
-bsdtar --uid "${id}" --gid "${id}" \
-  -x -f "${PREFIX}/tmp/tqs/cfg.tar" -C "${PREFIX%/*}"
+bsdtar --uid "${id}" --gid "${id}" -x \
+   -f "${TMPDIR}/tqs/cfg.tar" -C "${PREFIX}/.."
 
 chsh -s zsh
 rm -rf "${PREFIX}/etc/termux"
 echo > "${PREFIX}/etc/motd"
 [[ ! -d "${HOME}/storage" ]] && termux-setup-storage
-passwd
 
+echo
+echo '- Press ENTER to continue'
+read -r cntn && unset cntn
 kill "${TERMUX_APP_PID}"
