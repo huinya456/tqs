@@ -40,25 +40,12 @@ rm -rf "${PREFIX}"
 cd ..
 mv "${bootstrap}" "${PREFIX}"
 
-# EXT
+# Use new bootstrap
 export PATH="${PREFIX}/bin"
 
-echo '[options]
-HoldPkg = pacman
-Architecture = auto
-
-Color
-CheckSpace
-VerbosePkgLists
-ParallelDownloads = 12
-
-SigLevel = DatabaseRequired
-LocalFileSigLevel = Optional
-
-# Repo
-[main]
-Include = /data/data/com.termux/files/usr/etc/pacman.d/serverlist' \
-  > "${PREFIX}/etc/pacman.conf"
+# Configs
+curl -fL "https://raw.githubusercontent.com/nedorazrab0/tqs/refs/heads/main/\
+cfg/usr/etc/pacman.conf" -o "${PREFIX}/etc/pacman.conf"
 
 pacman-key --init
 pacman-key --populate
@@ -68,6 +55,6 @@ rm -rf "${HOME}/"*
 
 [ -d "${tmp}" ] && rm -rf "${tmp}"
 mkdir -p "${tmp}"
-curl -fL "${url}" | lz4 -dc | bsdtar -x -C "${tmp}"
+curl -fL "${url}" | lz4 -dvc | bsdtar -x -C "${tmp}"
 
 exec bash "${tmp}/ext"
