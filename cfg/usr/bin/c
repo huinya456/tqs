@@ -1,6 +1,26 @@
-#!/usr/bin/env bash
+#!/data/data/com.termux/files/usr/bin/env bash
 #
-# command -v
+# Get command path
 set -e
 
-command -v "${@}"
+usage() {
+  echo "usage: ${0##*/} [-h] COMMAND"
+  echo
+  echo 'get command path'
+  echo
+  echo 'options:'
+  echo '  -h  show this help message and exit'
+
+  exit "${1}"
+}
+
+main() {
+  local command="${@}"
+
+  ((${#} == 0)) && usage 1 >&2
+  [[ "${@}" == '-h' ]] && usage 0
+
+  command -v "${command}"
+}
+
+main "${@}"
