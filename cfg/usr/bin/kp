@@ -25,10 +25,10 @@ main() {
     exit 1
   fi
 
-  [[ "${@}" = '-h' ]] && usage 0
+  [[ "${command}" = '-h' ]] && usage 0
 
   echo '- ROOT'
-  [[ -n "${@}" ]] && local opt='-c'
+  [[ -n "${command}" ]] && local opt='-c'
   PATH="${PATH}:/system_ext/bin:/product/bin:/vendor/bin:/system/bin" \
     exec "${bin}" -c "${SHELL}" "${opt}" "${command}"
 }
