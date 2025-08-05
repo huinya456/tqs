@@ -12,7 +12,7 @@ skip_ssh_algs() {
 
 pkgs() {
   pacman -S zsh micro openssh git python man file --noconfirm
-  pacman -Rsn command-not-found --noconfirm  # Idi nahui
+  pacman -Rsn nano command-not-found --noconfirm
 }
 
 main() {
