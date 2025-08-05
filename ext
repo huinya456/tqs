@@ -1,32 +1,39 @@
 #!/data/data/com.termux/files/usr/bin/env bash
 #
-# EXT
-
+# Extra
 set -e
-tmp="${PREFIX}/tmp/tqs"
 
-# Skip ssh algs
-mkdir -p "${PREFIX}/etc/ssh"
-for alg in rsa ecdsa; do
-  ln -svf /dev/null "${PREFIX}/etc/ssh/ssh_host_${alg}_key"
-done
+skip_ssh_algs() {
+  mkdir -p -- "${PREFIX}/etc/ssh"
+  for alg in rsa ecdsa; do
+    ln -svf -- /dev/null "${PREFIX}/etc/ssh/ssh_host_${alg}_key"
+  done
+}
 
-# Pkgs
-pacman -S zsh{,-completions} micro openssh \
-  git python man file --noconfirm
-pacman -Rddn command-not-found --noconfirm  # Poshlo nahui
+install_pkgs() {
+  pacman -S zsh micro openssh git python man file --noconfirm
+}
 
-# Extract files
-id="$(id -u)"
-bsdtar --uid "${id}" --gid "${id}" -x \
-  -f "${tmp}/cfg.tar" -C "${PREFIX}/.."
+main() {
+  local tmp="${PREFIX}/tmp/tqs"
 
-chsh -s zsh
-rm -rf "${PREFIX}/etc/termux"
-echo > "${PREFIX}/etc/motd"
-[[ ! -d "${HOME}/storage" ]] && termux-setup-storage
+  skip_ssh_algs  
+  install_pkgs
+  
+  # Extract files
+  local id
+  id="$(id -u)"
+  bsdtar --uid "${id}" --gid "${id}" -x -f "${tmp}/cfg.tar" -C "${PREFIX}/.."
+  
+  chsh -s zsh
+  rm -rf -- "${PREFIX}/etc/termux"
+  echo > "${PREFIX}/etc/motd"
+  [[ ! -d "${HOME}/storage" ]] && termux-setup-storage
+  
+  echo
+  echo '- Press ENTER to continue'
+  read -r entr && unset entr
+  kill "${TERMUX_APP_PID}"
+}
 
-echo
-echo '- Press ENTER to continue'
-read -r cntn && unset cntn
-kill "${TERMUX_APP_PID}"
+main
