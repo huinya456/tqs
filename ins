@@ -3,58 +3,75 @@
 # Setup pacman in termux
 set -e
 
-bootstrap="${HOME}/bootstrap"
-tmp="${PREFIX}/tmp/tqs"
-url="https://github.com/nedorazrab0/tqs/releases/download/tqs/tqs.tar.lz4"
+check_failsafe() {
+  if [ -n "${TERMUX_MAIN_PACKAGE_FORMAT}" ]; then
+    echo '! Not failsafe' >&2
+    echo '- Left edge swipe ==> "new session" (long-tap)' >&2
+    exit 1
+  fi
+}
 
-# Check failsafe
-if [ -n "${TERMUX_MAIN_PACKAGE_FORMAT}" ]; then
-  echo
-  echo '! Not failsafe'
-  echo '- Left edge swipe ==> "new session" (long-tap)'
-  exit 1
-fi
+bootstrap() {
+  local bootstrap="${HOME}/bootstrap"
+  [ -d "${bootstrap}" ] && rm -rf -- "${bootstrap}"
+  mkdir -p -- "${bootstrap}"
 
-# Main
-[ -d "${bootstrap}" ] && rm -rf "${bootstrap}"
-mkdir -p "${bootstrap}"
+  local machine
+  machine=$(uname -m)
+  if [ "${machine}" == 'aarch64' ]; then
+    local arch='aarch64'
+  elif [ "${machine}" == 'armv7l' ]; then
+    local arch='arm'
+  fi
 
-if [ "$(uname -m)" == 'aarch64' ]; then
-  arch='aarch64'
-else
-  arch='arm'
-fi
+  local zipurl
+  zipurl='https://github.com/termux-pacman/termux-packages/releases/latest'
+  zipurl="${zipurl}/download/bootstrap-${arch}.zip"
+  "${PREFIX}/bin/curl" -fLZ -o "${PREFIX}/bootstrap.zip" -- "${zipurl}"
+  
+  unzip -d "${bootstrap}" -- "${PREFIX}/bootstrap.zip"
+  cd "${bootstrap}"  # For symlinks
+  awk -F '←' '{system("ln -sv '"'"'"$1"'"'"' '"'"'"$2"'"'"' &")}' \
+    "${bootstrap}/SYMLINKS.txt"
+  
+  rm -f -- "${bootstrap}/SYMLINKS.txt"
+  rm -rf -- "${PREFIX}"
+  cd ..
+  mv -v -- "${bootstrap}" "${PREFIX}"
+  
+  export PATH="${PREFIX}/bin"
+}
 
-"${PREFIX}/bin/curl" -fLZ "https://github.com/termux-pacman/termux-packages/\
-releases/latest/download/bootstrap-${arch}.zip" \
-  -o "${PREFIX}/bootstrap.zip"
+main() {
+  local tmp="${PREFIX}/tmp/tqs"
 
-unzip "${PREFIX}/bootstrap.zip" -d "${bootstrap}"
-cd "${bootstrap}"  # For symlinks
-awk -F '←' \
-  '{system("ln -sv '"'"'"$1"'"'"' '"'"'"$2"'"'"' &")}' \
-  "${bootstrap}/SYMLINKS.txt"
+  check_failsafe
 
-rm -f "${bootstrap}/SYMLINKS.txt"
-rm -rf "${PREFIX}"
-cd ..
-mv "${bootstrap}" "${PREFIX}"
+  local pacmanconf
+  pacmanconf='https://raw.githubusercontent.com/nedorazrab0/tqs/main/cfg'
+  pacmanconf="${pacmanconf}/usr/etc/pacman.conf"
+  curl -fL -o "${PREFIX}/etc/pacman.conf" -- "${pacmanconf}"
 
-# Use new bootstrap
-export PATH="${PREFIX}/bin"
+  local serverlist
+  serverlist='https://raw.githubusercontent.com/nedorazrab0/tqs/main/cfg'
+  serverlist="${pacmanconf}/usr/etc/pacman.d/serverlist"
+  curl -fL -o "${PREFIX}/etc/pacman.conf" -- "${serverlist}"
 
-# Configs
-curl -fL "https://raw.githubusercontent.com/nedorazrab0/tqs/refs/heads/main/\
-cfg/usr/etc/pacman.conf" -o "${PREFIX}/etc/pacman.conf"
+  pacman-key --init
+  pacman-key --populate
+  pacman -Syyu lz4 bsdtar --noconfirm
 
-pacman-key --init
-pacman-key --populate
-pacman -Syyu lz4 bsdtar --noconfirm
+  rm -rf -- "${HOME}/"*
 
-rm -rf "${HOME}/"*
+  [ -d "${tmp}" ] && rm -rf -- "${tmp}"
+  mkdir -p -- "${tmp}"
 
-[ -d "${tmp}" ] && rm -rf "${tmp}"
-mkdir -p "${tmp}"
-curl -fL "${url}" | lz4 -dvc | bsdtar -x -C "${tmp}"
+  local mainurl
+  mainurl='https://github.com/nedorazrab0/tqs/releases/download/tqs'
+  mainurl="${mainurl}/tqs.tar.lz4"
+  curl -fL -- "${mainurl}" | lz4 -dvc | bsdtar -x -C "${tmp}"
 
-exec bash "${tmp}/ext"
+  exec bash "${tmp}/ext"
+}
+
+main
