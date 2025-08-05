@@ -3,4 +3,4 @@
 # shizushiho
 set -e
 
-shiho
+shiho "${@}"
