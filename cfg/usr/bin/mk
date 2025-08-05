@@ -18,7 +18,7 @@ main() {
   [[ "${@}" == '-h' ]] && usage 0
   ((${#} == 0)) && usage 1 >&2
 
-  micro -config-dir /etc/micro -- "${@}"
+  micro -config-dir "${PREFIX}/etc/micro" -- "${@}"
 }
 
 main "${@}"
