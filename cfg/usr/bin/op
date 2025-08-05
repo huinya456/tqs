@@ -41,7 +41,10 @@ main() {
   case "${cmd}" in
     s) sshd -p8022 ;;
     x) pidof -q sshd && killall sshd ;;
-    e) echo 'PasswordAuthentication yes' > "${passconf}" ;;
+    e) 
+      [[ ! -f "${HOME}/.termux_authinfo" ]] && passwd
+      echo 'PasswordAuthentication yes' > "${passconf}"
+      ;;
     d) echo 'PasswordAuthentication no' > "${passconf}" ;;
     c) echo > "${HOME}/.ssh/authorized_keys" ;;
     *) usage 1 >&2 ;;
