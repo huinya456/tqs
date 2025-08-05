@@ -1,22 +1,44 @@
 #!/data/data/com.termux/files/usr/bin/env bash
 #
-# Setup Shizuku
-# https://github.com/RikkaApps/Shizuku
-
+# Setup Shizuku (https://github.com/RikkaApps/Shizuku)
 set -e
-apk="${TMPDIR}/shizuku.apk"
-conf="${HOME}/.termux/termux.properties"
 
-link() {
-  curl -s 'https://api.github.com/repos/RikkaApps/Shizuku/releases/latest' \
-    | grep "browser_download_url.*apk" | cut -d ':' -f '2,3' | tr -d '"' \
+usage() {
+  echo "usage: ${0##*/} [-h]"
+  echo
+  echo 'setup shizuku (https://github.com/rikkaapps/shizuku)'
+  echo
+  echo 'options:'
+  echo '  -h  show this help message and exit'
+  echo
+  echo "do not forget to export files into ${HOME}/shizuku"
+  echo 'after starting shizuku'
+
+  exit "${1}"
+}
+
+get_link() {
+  curl -f 'https://api.github.com/repos/RikkaApps/Shizuku/releases/latest' \
+    | grep "browser_download_url.*apk" | cut -d ':' -f '2,3' | tr -d \" \
     | cut -c '2-'
 }
 
-curl -fL -o "${apk}" "$(link)"
+main() {
+  [[ "${@}" == '-h' ]] && usage 0
 
-echo 'allow-external-apps = true' > "${conf}"
-termux-open "${apk}"
-echo '- Press [Enter] to continue'
-read -r ans && unset ans
-echo 'allow-external-apps = false' > "${conf}"
+  local apk="${TMPDIR}/shizuku.apk"
+  local conf="${HOME}/.termux/termux.properties"
+
+  curl -fL -o "${apk}" "$(get_link)"
+
+  echo 'allow-external-apps = true' > "${conf}"
+  echo '- Press ENTER to continue'
+  read -r ans && unset ans
+
+  termux-open "${apk}"
+
+  echo 'allow-external-apps = false' > "${conf}"
+  echo "- After starting shizuku export files into ${HOME}/shizuku"
+}
+
+main "${@}"
