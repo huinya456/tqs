@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/env bash
-#
+# SPDX-License-Identifier: 0BSD
 # sshd alias
 set -e
 
@@ -15,7 +15,6 @@ usage() {
   echo '  -e  enable password auth'
   echo '  -d  disable password auth'
   echo '  -c  clear authorized_keys'
-
   exit "${1}"
 }
 
