@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/env bash
-#
+# SPDX-License-Identifier: 0BSD
 # pacman alias
 set -e
 
