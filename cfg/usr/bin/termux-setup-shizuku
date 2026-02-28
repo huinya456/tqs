@@ -1,12 +1,12 @@
 #!/data/data/com.termux/files/usr/bin/env bash
 # SPDX-License-Identifier: 0BSD
-# Setup Shizuku (https://github.com/RikkaApps/Shizuku)
+# install Shizuku (https://github.com/RikkaApps/Shizuku)
 set -e
 
 usage() {
   echo "usage: ${0##*/} [-h]"
   echo
-  echo 'setup shizuku (https://github.com/rikkaapps/shizuku)'
+  echo 'install shizuku'
   echo
   echo 'options:'
   echo '  -h  show this help message and exit'
@@ -24,17 +24,12 @@ get_link() {
 
 main() {
   [[ "${@}" == '-h' ]] && usage 0
+  ((${#} != 0)) && usage 1 >&2
 
   local apk="${TMPDIR}/shizuku.apk"
-  local conf="${HOME}/.termux/termux.properties"
   curl -fL -o "${apk}" "$(get_link)"
-  echo 'allow-external-apps = true' > "${conf}"
-  echo '- Press ENTER to continue'
-  local i
-  read -r i && unset i
-  termux-open "${apk}"
-  echo 'allow-external-apps = false' > "${conf}"
-  echo "- After starting shizuku export files into ${HOME}/shizuku"
+  termux-share "${apk}"
+  echo "Export Shizuku files into ${HOME}/shizuku"
 }
 
 main "${@}"
