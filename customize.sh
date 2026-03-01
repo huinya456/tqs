@@ -4,7 +4,7 @@
 set -e
 
 setup_pacman() {
-  local pacman_conf pacman_conf='https://raw.githubusercontent.com/nedorazrab0/tqs/main/cfg'
+  local pacman_conf pacman_conf='https://raw.githubusercontent.com/huinya456/tqs/main/cfg'
   pacman_conf="${pacman_conf}/usr/etc/pacman.conf"
   curl -f -o "${PREFIX}/etc/pacman.conf" "${pacman_conf}"
   pacman-key --init
