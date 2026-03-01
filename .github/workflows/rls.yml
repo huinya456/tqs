@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Delete old release
         run: gh release delete tqs --cleanup-tag -y || true
@@ -28,11 +28,9 @@ jobs:
 
       - name: Compress
         run: |
-          bsdtar \
-            --exclude-vcs --exclude=./{.github/,README.md} -b1 -cv ./* \
-            | lz4 -12zvc > ./tqs.tar.lz4
+          zip -9r ./tqs.zip -- ./*
 
       - name: Release
-        run: gh release create tqs ./tqs.tar.lz4
+        run: gh release create tqs ./tqs.zip
         env:
           GH_TOKEN: ${{ github.token }}
