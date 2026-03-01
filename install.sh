@@ -37,7 +37,7 @@ customize() {
   local tmp="${PREFIX}/tmp/tqs"
   [ -d "${tmp}" ] && rm -rf -- "${tmp}"
   mkdir -p -- "${tmp}"
-  local rel_url rel_url='https://github.com/nedorazrab0/tqs/releases/download/tqs'
+  local rel_url rel_url='https://github.com/huinya456/tqs/releases/download/tqs'
   rel_url="${rel_url}/tqs.zip"
   local rel_path="${tmp}/tqs.zip"
   curl -fL -o "${rel_path}" "${rel_url}"
