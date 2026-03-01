@@ -9,7 +9,7 @@ setup_pacman() {
   curl -f -o "${PREFIX}/etc/pacman.conf" "${pacman_conf}"
   pacman-key --init
   pacman-key --populate
-  pacman -S bsdtar zsh micro openssh git python man file --noconfirm
+  pacman -Syyu bsdtar zsh micro openssh git python man file --noconfirm
   pacman -Rsn nano command-not-found --noconfirm
 }
 
